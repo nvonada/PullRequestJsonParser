@@ -6,12 +6,12 @@
     "configurations": [
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["c:\\temp\\CompletedPrs.json" , "--date=2022", "--user=nathan"]
+            "args": ["c:\\temp\\CompletedPrs.json" , "--date=2023-01-01", "--user=cory"]
         }
     ]
 }

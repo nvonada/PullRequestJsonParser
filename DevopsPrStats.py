@@ -6,6 +6,9 @@
 import json
 import re
 import sys
+from datetime import datetime
+import pytz
+from dateutil.relativedelta import relativedelta
 
 _filePath = ""
 _dateFilter = ""
@@ -14,6 +17,9 @@ _userFilter = ""
 def Main():
     ProcessArgs()
     
+    _startingDateTime = pytz.timezone('US/Eastern').localize(datetime.strptime(_dateFilter, "%Y-%m-%d"))
+    _endingDateTime = _startingDateTime + relativedelta(years=1)
+
     with open(_filePath) as jsonFile:
         parsedJson = json.load(jsonFile)
 
@@ -32,8 +38,11 @@ def Main():
 
         for prDict in parsedJson:
             if _dateFilter != "":
-                createDate = str(prDict["creationDate"])
-                if not createDate.startswith(_dateFilter):
+                createDateStr = str(prDict["creationDate"])
+                # parse date in universal date time formate
+                createDate = datetime.strptime(createDateStr, "%Y-%m-%dT%H:%M:%S.%f%z")
+
+                if not createDate >= _startingDateTime and createDate < _endingDateTime:
                     continue
                 else:
                     dateTotal = dateTotal + 1
